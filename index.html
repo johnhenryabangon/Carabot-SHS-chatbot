@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carabot — CNHS-SHS Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo-wrap">
+        <svg class="carabao-icon" viewBox="0 0 48 48" fill="none">
+          <path d="M6 30 Q4 22 8 16 Q10 10 16 9 Q18 4 24 4 Q30 4 32 9 Q38 10 40 16 Q44 22 42 30 Q40 36 34 38 L34 44 L28 44 L28 40 L20 40 L20 44 L14 44 L14 38 Q8 36 6 30Z" fill="currentColor" opacity="0.15"/>
+          <path d="M12 12 Q4 6 2 12 Q0 18 8 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path d="M36 12 Q44 6 46 12 Q48 18 40 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path d="M14 38 Q8 34 7 26 Q6 18 12 13 Q17 8 24 8 Q31 8 36 13 Q42 18 41 26 Q40 34 34 38" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <circle cx="18" cy="22" r="2.5" fill="currentColor"/>
+          <circle cx="30" cy="22" r="2.5" fill="currentColor"/>
+          <ellipse cx="21" cy="30" rx="2" ry="1.2" fill="currentColor" opacity="0.6"/>
+          <ellipse cx="27" cy="30" rx="2" ry="1.2" fill="currentColor" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">Carabot</span>
+        <span class="brand-sub">CNHS · Senior High School</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="status-dot"><span class="dot"></span> KB Online</div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="icon-sun">☀</span>
+        <span class="icon-moon">☽</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── CHAT ── -->
+  <main class="chat-wrapper">
+    <div class="chat-window" id="chatWindow">
+
+      <div class="welcome-card" id="welcomeCard">
+        <div class="welcome-horn-left"></div>
+        <div class="welcome-horn-right"></div>
+        <h2>Kumusta! I'm <em>Carabot</em> 🐃</h2>
+        <p>Your official guide for Cavite National High School — Senior High School. I only answer based on verified school information.</p>
+        <div class="quick-chips">
+          <button class="chip" data-query="What strands are available in SHS?">📚 Strands</button>
+          <button class="chip" data-query="How do I enroll in Senior High School?">📝 Enrollment</button>
+          <button class="chip" data-query="Tell me about CNHS history">🏛️ History</button>
+          <button class="chip" data-query="What are the school fees?">💰 Fees</button>
+          <button class="chip" data-query="What is the grading system?">📊 Grading</button>
+          <button class="chip" data-query="What is the uniform policy?">👕 Uniform</button>
+        </div>
+      </div>
+
+      <div id="messageList"></div>
+    </div>
+
+    <!-- ── INPUT ── -->
+    <div class="input-bar">
+      <textarea id="userInput" rows="1" placeholder="Ask anything about CNHS-SHS…" autocomplete="off"></textarea>
+      <button class="send-btn" id="sendBtn" aria-label="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+    <p class="disclaimer">Carabot answers strictly from the CNHS knowledge base. For urgent concerns, visit the school office.</p>
+  </main>
+
+  <!-- ── SCRIPTS (order matters) ── -->
+  <script src="knowledgeBase.js"></script>
+  <script src="agent.js"></script>
+</body>
+</html>
