@@ -342,6 +342,25 @@ textarea#userInput:focus {
   flex-shrink: 0;
 }
 
+
+/* ── NEW CHAT BUTTON ── */
+.new-chat-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(201,162,39,0.35);
+  border-radius: 20px;
+  padding: 0 14px;
+  height: 32px;
+  cursor: pointer;
+  color: var(--gold-bright);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 500;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+.new-chat-btn:hover { background: rgba(255,255,255,0.14); transform: translateY(-1px); }
+.new-chat-btn:active { transform: translateY(0); }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 520px) {
   .brand-sub, .status-dot { display: none; }

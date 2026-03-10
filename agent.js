@@ -32,7 +32,7 @@ ABSOLUTE RULES — follow these without exception:
 3. FORBIDDEN: Defining or explaining anything not found in the knowledge base.
 4. If the question is not in the knowledge base, respond ONLY with: "I'm sorry, I can only answer questions about CNHS-SHS. For other concerns, please visit the school office."
 5. Do NOT apologize then answer anyway. Do NOT say "however" then give outside info.
-6. Reply in Filipino if the student writes in Filipino/Tagalog.
+6. ALWAYS reply in the same language the student used. If they write in English, reply in English. If they write in Filipino/Tagalog, reply in Filipino. Default language is English.
 7. Use bullet points or numbered lists when listing items.
 8. End enrollment/fees/policy answers with: "📌 For the most current info, visit the CNHS Registrar's Office (Mon-Fri, 7AM-4PM)."
 
@@ -214,6 +214,7 @@ const messageList = document.getElementById("messageList");
 const userInput   = document.getElementById("userInput");
 const sendBtn     = document.getElementById("sendBtn");
 const themeToggle = document.getElementById("themeToggle");
+const newChatBtn  = document.getElementById("newChatBtn");
 const welcomeCard = document.getElementById("welcomeCard");
 
 // ── THEME ─────────────────────────────────────────────────────
@@ -223,6 +224,16 @@ themeToggle.addEventListener("click", () => {
   const next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
   document.documentElement.setAttribute("data-theme", next);
   localStorage.setItem("carabot-theme", next);
+});
+
+// ── NEW CHAT ──────────────────────────────────────────────────
+newChatBtn.addEventListener("click", () => {
+  chatHistory.length = 0;           // clear conversation history
+  messageList.innerHTML = "";       // clear messages from screen
+  welcomeCard.style.display = "";   // show welcome card again
+  userInput.value = "";
+  userInput.style.height = "auto";
+  userInput.focus();
 });
 
 // ── QUICK CHIPS ───────────────────────────────────────────────
@@ -263,11 +274,11 @@ async function handleSend(override) {
   try {
     const reply = await askCarabot(text);
     removeTyping(tid);
-    appendMessage("bot", reply, "📚 CNHS Knowledge Base · Ollama");
+    appendMessage("bot", reply);
   } catch (err) {
     removeTyping(tid);
     appendMessage("bot",
-      "⚠️ " + (err.message || "Connection issue. Make sure Ollama and ngrok are running."),
+      "⚠️ " + (err.message || "Connection issue. Please try again."),
       "⚠️ Error"
     );
     console.error("Carabot error:", err);
