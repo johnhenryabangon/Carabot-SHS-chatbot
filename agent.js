@@ -169,21 +169,6 @@ function isSchoolRelated(message) {
 }
 
 // ── HALLUCINATION SIGNALS ─────────────────────────────────────
-const UNKNOWN_SCHOOL_REPLY = "I\'m sorry, I don\'t have that specific information in my knowledge base. Please contact the CNHS office directly for accurate details. 📌";
-
-const HALLUCINATION_SIGNALS = [
-  "i don\'t have specific information",
-  "i cannot provide",
-  "not available in",
-  "not mentioned",
-  "not found in",
-  "cannot find",
-];
-
-function containsHallucination(reply) {
-  const lower = reply.toLowerCase();
-  return HALLUCINATION_SIGNALS.some(s => lower.includes(s));
-}
 
 // ── GROQ API CALL (via Vercel proxy) ─────────────────────────
 async function askCarabot(userMessage) {
