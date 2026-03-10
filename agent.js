@@ -2,138 +2,13 @@
  * agent.js
  * ─────────────────────────────────────────────────────────────
  * Carabot — CNHS-SHS Chatbot Agent
- * Powered by Ollama (local AI) tunneled through ngrok
- * CORS fix: removed custom headers that trigger preflight block
+ * Powered by Groq API (free, fast) via Vercel backend proxy.
+ * The API key is stored securely in Vercel — never in the browser.
  * ─────────────────────────────────────────────────────────────
  */
 
 const KB = window.KNOWLEDGE_BASE;
-const chatHistory = [];
-const OLLAMA_MODEL = "qwen2.5:0.5b";
-
-// ── INJECT MODAL STYLES ───────────────────────────────────────
-const modalStyles = document.createElement("style");
-modalStyles.textContent = `
-  .key-overlay {
-    position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.55);
-    display:flex;align-items:center;justify-content:center;padding:20px;
-    backdrop-filter:blur(4px);
-  }
-  .key-modal {
-    background:var(--bg-card);border:1px solid var(--border);border-radius:20px;
-    padding:32px 28px 24px;max-width:460px;width:100%;
-    box-shadow:0 12px 48px rgba(0,0,0,0.3);position:relative;
-    animation:fadeInUp 0.25s ease both;
-  }
-  .key-modal::before {
-    content:'';position:absolute;top:0;left:0;right:0;height:3px;
-    border-radius:20px 20px 0 0;
-    background:linear-gradient(90deg,var(--maroon),var(--gold),var(--maroon));
-  }
-  .key-modal-icon{font-size:2.4rem;text-align:center;margin-bottom:12px;}
-  .key-modal h3{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;
-    color:var(--maroon);text-align:center;margin-bottom:6px;}
-  [data-theme="dark"] .key-modal h3{color:var(--gold-bright);}
-  .key-modal p{font-size:0.85rem;color:var(--text-secondary);text-align:center;
-    margin-bottom:16px;line-height:1.5;}
-  .key-modal p a{color:var(--maroon);font-weight:600;text-decoration:none;}
-  [data-theme="dark"] .key-modal p a{color:var(--gold-bright);}
-  .key-modal p a:hover{text-decoration:underline;}
-  .key-badge{display:block;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;
-    border-radius:20px;padding:4px 12px;font-size:0.75rem;font-weight:600;
-    text-align:center;margin-bottom:16px;}
-  [data-theme="dark"] .key-badge{background:#1b3a1e;color:#81c784;border-color:#2e7d32;}
-  .key-steps{background:var(--bg-chip);border:1px solid var(--border);border-radius:12px;
-    padding:12px 16px;margin-bottom:16px;text-align:left;}
-  .key-steps p{font-size:0.78rem;color:var(--text-secondary);margin-bottom:4px;
-    font-weight:600;text-transform:uppercase;letter-spacing:0.05em;}
-  .key-steps ol{padding-left:18px;font-size:0.8rem;color:var(--text-secondary);
-    line-height:1.8;margin:0;}
-  .key-steps ol li code{background:var(--border);border-radius:4px;
-    padding:1px 6px;font-size:0.78rem;font-family:monospace;}
-  .key-input-wrap{position:relative;margin-bottom:12px;}
-  .key-input-wrap input{width:100%;background:var(--bg-input);
-    border:1.5px solid var(--border-input);border-radius:12px;
-    padding:11px 16px;font-family:'DM Sans',sans-serif;
-    font-size:0.88rem;color:var(--text-primary);outline:none;
-    transition:border-color 0.2s,box-shadow 0.2s;}
-  .key-input-wrap input:focus{border-color:var(--maroon);
-    box-shadow:0 0 0 3px rgba(128,0,0,0.12);}
-  .key-error{font-size:0.78rem;color:#c0392b;margin-bottom:10px;
-    text-align:center;display:none;}
-  .key-error.visible{display:block;}
-  .key-submit{width:100%;background:var(--maroon);color:#fff;border:none;
-    border-radius:12px;padding:11px;font-family:'DM Sans',sans-serif;
-    font-size:0.92rem;font-weight:600;cursor:pointer;
-    transition:background 0.2s,transform 0.15s;}
-  .key-submit:hover{background:var(--maroon-mid);transform:translateY(-1px);}
-  .key-submit:active{transform:translateY(0);}
-  .key-note{font-size:0.72rem;color:var(--text-secondary);
-    text-align:center;margin-top:12px;opacity:0.7;}
-`;
-document.head.appendChild(modalStyles);
-
-// ── NGROK URL MODAL ───────────────────────────────────────────
-function showUrlModal(errorMsg = "") {
-  return new Promise((resolve) => {
-    const overlay = document.createElement("div");
-    overlay.className = "key-overlay";
-    overlay.innerHTML = `
-      <div class="key-modal">
-        <div class="key-modal-icon">🐃</div>
-        <h3>Connect to Carabot AI</h3>
-        <span class="key-badge">✅ 100% Free — Runs on your computer</span>
-        <div class="key-steps">
-          <p>Make sure these are running in PowerShell:</p>
-          <ol>
-            <li>Set origins: <code>$env:OLLAMA_ORIGINS="*"</code></li>
-            <li>Start Ollama: <code>ollama serve</code></li>
-            <li>Start ngrok: <code>ngrok http 11434</code></li>
-          </ol>
-        </div>
-        <p>Paste your <strong>ngrok Forwarding URL</strong> below:</p>
-        <div class="key-input-wrap">
-          <input type="text" id="keyInput"
-            placeholder="https://xxxx.ngrok-free.dev"
-            autocomplete="off" spellcheck="false"/>
-        </div>
-        <div class="key-error ${errorMsg ? "visible" : ""}" id="keyError">${errorMsg}</div>
-        <button class="key-submit" id="keySubmit">Connect →</button>
-        <p class="key-note">💡 Copy the exact URL from your ngrok terminal Forwarding line.</p>
-      </div>`;
-    document.body.appendChild(overlay);
-
-    const input  = overlay.querySelector("#keyInput");
-    const submit = overlay.querySelector("#keySubmit");
-    const error  = overlay.querySelector("#keyError");
-
-    setTimeout(() => input.focus(), 50);
-
-    function submitUrl() {
-      let val = input.value.trim().replace(/\/$/, ""); // strip trailing slash
-      if (!val) {
-        error.textContent = "Please enter your ngrok URL.";
-        error.classList.add("visible"); return;
-      }
-      if (!val.startsWith("https://")) {
-        error.textContent = "URL must start with https:// — copy it directly from your ngrok terminal.";
-        error.classList.add("visible"); return;
-      }
-      sessionStorage.setItem("carabot_ngrok", val);
-      overlay.remove();
-      resolve(val);
-    }
-
-    submit.addEventListener("click", submitUrl);
-    input.addEventListener("keydown", e => { if (e.key === "Enter") submitUrl(); });
-  });
-}
-
-async function getNgrokUrl() {
-  let url = sessionStorage.getItem("carabot_ngrok");
-  if (!url) url = await showUrlModal();
-  return url;
-}
+const chatHistory = []; // { role: "user"|"assistant", content: "..." }
 
 // ── SYSTEM PROMPT ─────────────────────────────────────────────
 function buildSystemPrompt() {
@@ -293,66 +168,55 @@ function isSchoolRelated(message) {
   return SCHOOL_KEYWORDS.some(kw => lower.includes(kw));
 }
 
-// ── OLLAMA API CALL ───────────────────────────────────────────
+// ── HALLUCINATION SIGNALS ─────────────────────────────────────
+const UNKNOWN_SCHOOL_REPLY = "I\'m sorry, I don\'t have that specific information in my knowledge base. Please contact the CNHS office directly for accurate details. 📌";
+
+const HALLUCINATION_SIGNALS = [
+  "i don\'t have specific information",
+  "i cannot provide",
+  "not available in",
+  "not mentioned",
+  "not found in",
+  "cannot find",
+];
+
+function containsHallucination(reply) {
+  const lower = reply.toLowerCase();
+  return HALLUCINATION_SIGNALS.some(s => lower.includes(s));
+}
+
+// ── GROQ API CALL (via Vercel proxy) ─────────────────────────
 async function askCarabot(userMessage) {
-  // ── GUARDRAIL: refuse off-topic before calling AI ─────────
+  // JS guardrail — refuse off-topic before calling API
   if (!isSchoolRelated(userMessage)) {
     return OFF_TOPIC_REPLY;
   }
-  const ngrokUrl = await getNgrokUrl();
 
   chatHistory.push({ role: "user", content: userMessage });
 
   let response;
   try {
-    response = await fetch(`${ngrokUrl}/api/chat`, {
+    response = await fetch("/api/chat", {
       method: "POST",
-      // Only Content-Type header — no custom headers that trigger CORS preflight
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model:    OLLAMA_MODEL,
-        stream:   false,
-        messages: [
-          { role: "system", content: buildSystemPrompt() },
-          ...chatHistory,
-        ],
-        options: {
-          temperature: 0.3,
-          num_predict: 400,
-          repeat_penalty: 1.5,
-          repeat_last_n: 64,
-          stop: ["<|im_end|>", "User:", "Human:", "---"],
-        },
+        system:   buildSystemPrompt(),
+        messages: chatHistory,
       }),
     });
   } catch (networkErr) {
     chatHistory.pop();
-    sessionStorage.removeItem("carabot_ngrok");
-    await showUrlModal("❌ Could not connect. Make sure Ollama and ngrok are both running.");
-    return await askCarabot(userMessage);
+    throw new Error("Network error. Please check your connection and try again.");
   }
 
   if (!response.ok) {
-    if (response.status === 502 || response.status === 503 || response.status === 404) {
-      chatHistory.pop();
-      sessionStorage.removeItem("carabot_ngrok");
-      await showUrlModal(`❌ Connection failed (${response.status}). Restart ngrok and try again.`);
-      return await askCarabot(userMessage);
-    }
-    const errText = await response.text().catch(() => "");
-    throw new Error(`Ollama error ${response.status}: ${errText.slice(0, 120)}`);
+    chatHistory.pop();
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err?.error || `Server error ${response.status}. Please try again.`);
   }
 
   const data  = await response.json();
-  // Ollama /api/chat response format
-  const raw = data?.message?.content
-    ?? data?.choices?.[0]?.message?.content
-    ?? "Sorry, I couldn't generate a response. Please try again.";
-
-  // If the AI admits it doesn't know, return a clean consistent message
-  // instead of whatever the model improvised
+  const raw   = data?.reply ?? "Sorry, I couldn\'t generate a response. Please try again.";
   const reply = containsHallucination(raw) ? UNKNOWN_SCHOOL_REPLY : raw;
 
   chatHistory.push({ role: "assistant", content: reply });
