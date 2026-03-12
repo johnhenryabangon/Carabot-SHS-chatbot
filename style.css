@@ -102,7 +102,7 @@ body {
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
 }
-.carabao-icon { width: 28px; height: 28px; color: var(--gold); }
+.carabao-icon { width: 40px; height: 40px; color: var(--gold); }
 
 .brand-text { display: flex; flex-direction: column; }
 .brand-name {
