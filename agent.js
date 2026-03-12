@@ -143,7 +143,7 @@ const SCHOOL_KEYWORDS = [
 const OFF_TOPIC_REPLY = "I'm sorry, I can only answer questions about Cavite National High School — Senior High School (CNHS-SHS). For other concerns, please visit the school office directly. 😊";
 
 // Reply used when question is school-related but AI signals it doesn't know
-const UNKNOWN_SCHOOL_REPLY = "I'm sorry, I don't have that specific information in my knowledge base. Please contact the CNHS office directly for accurate details. 📌";
+const UNKNOWN_SCHOOL_REPLY = "I'm sorry, I do not have information about that yet. You may contact the Registrar Office at **cnhs.seniorhigh@gmail.com** for further assistance.📌";
 
 // Phrases that indicate the AI is guessing or making things up
 const HALLUCINATION_SIGNALS = [
