@@ -168,8 +168,6 @@ function isSchoolRelated(message) {
   return SCHOOL_KEYWORDS.some(kw => lower.includes(kw));
 }
 
-// ── HALLUCINATION SIGNALS ─────────────────────────────────────
-
 // ── GROQ API CALL (via Vercel proxy) ─────────────────────────
 async function askCarabot(userMessage) {
   // JS guardrail — refuse off-topic before calling API
@@ -250,11 +248,6 @@ userInput.addEventListener("keydown", e => {
   if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
 });
 sendBtn.addEventListener("click", () => handleSend());
-
-// ── SHOW MODAL ON LOAD ────────────────────────────────────────
-window.addEventListener("DOMContentLoaded", () => {
-  if (!sessionStorage.getItem("carabot_ngrok")) getNgrokUrl();
-});
 
 // ── MAIN SEND HANDLER ─────────────────────────────────────────
 async function handleSend(override) {
