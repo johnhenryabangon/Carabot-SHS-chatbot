@@ -154,6 +154,8 @@ const SCHOOL_KEYWORDS = [
   "address","contact","email","facebook","location","where",
   // filipino greetings (allow)
   "hi","hello","kumusta","kamusta","hey","magandang","sino","ano","paano","kelan","saan",
+  //documents
+  "tor", "transcript", "good moral", "certificate", "diploma", "form 137", "request", "papers"
 ];
 
 const OFF_TOPIC_REPLY = "I'm sorry, I can only answer questions about Cavite National High School — Senior High School (CNHS-SHS). For other concerns, please visit the school office directly. 😊";
