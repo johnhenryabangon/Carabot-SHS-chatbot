@@ -5,9 +5,9 @@
  * This is the ONLY file you need to regularly update.
  *
  * HOW TO UPDATE:
- *   - Replace all [placeholder] values with real data.
- *   - Add new topics by following the same structure.
- *   - Save and push to GitHub — Carabot instantly knows the new info.
+ * - Replace all [placeholder] values with real data.
+ * - Add new topics by following the same structure.
+ * - Save and push to GitHub — Carabot instantly knows the new info.
  * ─────────────────────────────────────────────────────────────
  */
 
@@ -28,7 +28,6 @@ const KNOWLEDGE_BASE = {
   },
 
   // ── KEY OFFICIALS ─────────────────────────────────────────
-  // ← Replace all [placeholder] values with real names
   officials: {
     principal:       "Dr. [Principal Name]",
     shs_coordinator: "[SHS Coordinator Name]",
@@ -119,6 +118,24 @@ const KNOWLEDGE_BASE = {
       "Receive your class schedule and student ID application form.",
     ],
     note: "SHS is FREE for all Filipino students under RA 10533 (K-12 Law). No tuition is charged.",
+  },
+
+  // ── REGISTRAR DOCUMENT REQUESTS ───────────────────────────
+  registrar_requests: {
+    email: "cnhs.seniorhigh@gmail.com",
+    available_documents: [
+      "Transcript of Records (TOR)",
+      "Certificate of Good Moral Character",
+      "Diploma",
+      "Form 137 (Permanent Record)"
+    ],
+    process: [
+      "Compose an email to the official registrar email: cnhs.seniorhigh@gmail.com.",
+      "State the specific document(s) you are requesting.",
+      "Provide a clear reason for the request (e.g., college entrance exam requirement).",
+      "Attach a digital copy/photo of the proof of the reason (e.g., application portal screenshot, official letter of request, or exam permit)."
+    ],
+    important_note: "Emails that do not specify a reason or fail to provide supporting proof may result in processing delays."
   },
 
   // ── FEES ──────────────────────────────────────────────────
