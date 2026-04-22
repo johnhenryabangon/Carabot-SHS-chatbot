@@ -135,7 +135,7 @@ const KNOWLEDGE_BASE = {
       "Provide a clear reason for the request (e.g., college entrance exam requirement).",
       "Attach a digital copy/photo of the proof of the reason (e.g., application portal screenshot, official letter of request, or exam permit)."
     ],
-    important_note: "Emails that do not specify a reason or fail to provide supporting proof may result in processing delays."
+    important_note: "Emails that do not specify a reason or fail to provide supporting proof may result in processing delays. After 2-3 working days, the Registrar's Office will email you whether your request is done, ready for pickup, or needs follow-up."
   },
 
   // ── FEES ──────────────────────────────────────────────────
@@ -175,14 +175,12 @@ const KNOWLEDGE_BASE = {
   // ── ORGANIZATIONS ─────────────────────────────────────────
   organizations: [
     "Supreme Student Government (SSG)",
-    "STEM Club",
-    "Junior Entrepreneurs Club (ABM)",
-    "Debate and Literary Club (HUMSS)",
-    "ICT Club (TVL-ICT)",
-    "The Carabao Courier (School Paper)",
-    "Red Cross Youth Club",
-    "Sports Clubs (Basketball, Volleyball, Badminton)",
-    "Dance and Cultural Troupe",
+    "Tellusians (The Official STEM Student Organization of CNHS-SHS)",
+    "Saltybots (Robotics Club)",
+    "HANDS (Humanitarian Association of Notable And Devout Students)",
+    "ASSETS ((Accountancy, Business, Entrepreneurship, and Management Society)",
+    "The Cavitenan (School Paper)",
+    "Sports Clubs",
   ],
 
   // ── CONTACT ───────────────────────────────────────────────
