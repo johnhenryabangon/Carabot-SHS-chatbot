@@ -152,7 +152,7 @@ const KNOWLEDGE_BASE = {
 
   // ── POLICIES ──────────────────────────────────────────────
   policies: {
-    uniform:    "White polo/blouse on Mondays (Flag Ceremony). Strand-specific or prescribed school uniform on other days. PE uniform on PE days.",
+    uniform:    "The prescribed CNHS uniform must be worn strictly on regular school days. The official PE uniform is required during PE days. Civilian attire is permitted only on designated special days and during weekend school activities.",
     attendance: "Students must have at least 80% attendance to pass the quarter. Absences beyond this may result in a failing grade.",
     devices:    "Mobile phones must be on silent or airplane mode inside classrooms. Use during class requires teacher permission.",
     behavior:   "Students are expected to follow the CNHS Code of Conduct at all times on school premises.",
