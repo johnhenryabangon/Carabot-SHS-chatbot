@@ -22,10 +22,9 @@ function buildSystemPrompt() {
   const calendar = KB.academic_calendar || {};
   const registrar = KB.registrar_requests || {};
 
-  const contact = KB.contact || {};
-  const schoolOffice = contact.shs_office || school.shs_office || "Not specified";
-  const officeHours  = contact.office_hours || school.office_hours || "Not specified";
-  const facebookPage = contact.facebook || school.facebook || "Not specified";
+  const schoolOffice = school.shs_office || "Not specified";
+  const officeHours  = school.office_hours || "Not specified";
+  const facebookPage = school.facebook || "Not specified";
   const mascot       = school.mascot || "Carabao";
   const colors       = school.colors || "Maroon and Gold";
 
