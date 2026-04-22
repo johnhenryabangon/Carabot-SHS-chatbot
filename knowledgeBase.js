@@ -22,21 +22,21 @@ const KNOWLEDGE_BASE = {
     type:        "Public Secondary School",
     address:     "  Chief E. Martin St. Caridad, Cavite, Philippines, 4100",
     phone:       "(046) 438 7421",
-    email:       "cavite.nhs@deped.gov.ph",
+    email:       "cnhs.seniorhigh@gmail.com",
     established:  1901,
     motto:       "Excellence, Integrity, Service",
   },
 
   // ── KEY OFFICIALS ─────────────────────────────────────────
   officials: {
-    principal:       "Dr. [Principal Name]",
+    principal:       "Mrs. Rhea Topacio",
     shs_coordinator: "[SHS Coordinator Name]",
     registrar:       "[Registrar Name]",
     guidance:        "[Guidance Counselor Name]",
   },
 
   // ── HISTORY ───────────────────────────────────────────────
-  history: "Cavite National High School was established in 1901 during the American colonial period, making it one of the oldest public high schools in Cavite Province. It has served generations of Caviteños and adopted the Carabao as its mascot — a symbol of strength, resilience, and the hardworking Filipino spirit. The Senior High School department was added following the K-12 implementation in the Philippines in 2016.",
+  history: "Cavite National High School (Pambansang Mataas na Paaralan ng Cavite) formerly known as Cavite High School, is a Secondary School located at Chief E. Martin Street, Caridad, Cavite City. It was established in 1902 and it is considered as one of the oldest national secondary schools in the country.\nCavite National High School’s 114 years of existence, transcendentally braved the changing times. Its remarkable role as trainer and molder of significant people and heroes effortlessly made a giant imprint in Philippine History.\nThe school is guided by the principle-- Train and develop a child to be God-fearing, civic-oriented, highly responsible, participative, innovative, and above all a conscientious citizen of the country who shows concern for the preservation and conservation of nature and life itself.",
 
   // ── SHS STRANDS ───────────────────────────────────────────
   strands: [
@@ -191,8 +191,8 @@ const KNOWLEDGE_BASE = {
     phone:        "(046) 431-0012",
     email:        "cavite.nhs@deped.gov.ph",
     facebook:     "facebook.com/CNHSOfficialPage",
-    office_hours: "Monday–Friday, 7:00 AM – 4:00 PM",
-    shs_office:   "ABM Building, 1st Floor, Room 201",
+    office_hours: "Monday – Friday, 7:00 AM – 4:00 PM",
+    shs_office:   "ABM Building, 1st Floor",
   },
 };
 
