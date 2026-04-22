@@ -126,37 +126,46 @@ Important: ${KB.registrar_requests.important_note}`;
 // Primary filter: qwen2.5:0.5b is too small to reliably follow prompt
 // instructions, so we enforce topic scope here in JavaScript first.
 
-const SCHOOL_KEYWORDS = [
-  // school identity
-  "cnhs","carabot","cavite national","senior high","shs","school","deped",
-  // strands
-  "stem","abm","humss","gas","tvl","ict","strand","track","course",
-  // enrollment
-  "enroll","enrollment","register","admission","requirement","form 138",
-  "psa","birth certificate","good moral","transferee","grade 11","grade 12",
-  // fees
-  "fee","fees","tuition","payment","cost","free","voucher","miscellaneous",
-  // academics
-  "grade","grading","passing","score","quarterly","subject","class","schedule",
-  "performance","written work","assessment",
-  // policies
-  "uniform","attendance","absent","device","phone","conduct","behavior","dress",
-  // people & offices
-  "principal","coordinator","registrar","guidance","counselor","teacher","official",
-  "office","staff",
-  // organizations
-  "ssg","club","organization","paper","courier","sports","basketball","volleyball",
-  // calendar
-  "calendar","quarter","graduation","school year",
-  // history & identity
-  "history","established","founded","mascot","carabao","color","motto",
-  // contact
-  "address","contact","email","facebook","location","where",
-  // filipino greetings (allow)
-  "hi","hello","kumusta","kamusta","hey","magandang","sino","ano","paano","kelan","saan",
-  //documents
-  "tor", "transcript", "good moral", "certificate", "diploma", "form 137", "request", "papers"
+function collectKeywordsFromKB(value, bag = new Set()) {
+  if (value == null) return bag;
+
+  if (Array.isArray(value)) {
+    value.forEach(item => collectKeywordsFromKB(item, bag));
+    return bag;
+  }
+
+  if (typeof value === "object") {
+    Object.entries(value).forEach(([k, v]) => {
+      collectKeywordsFromKB(k, bag);
+      collectKeywordsFromKB(v, bag);
+    });
+    return bag;
+  }
+
+  const text = String(value).toLowerCase();
+  const phrases = text.match(/[a-z0-9][a-z0-9\s&\-]{2,}/g) || [];
+
+  phrases.forEach(phrase => {
+    const cleaned = phrase.trim().replace(/\s+/g, " ");
+    if (cleaned.length >= 3) bag.add(cleaned);
+    cleaned.split(/[\s/&-]+/).forEach(token => {
+      if (token.length >= 3) bag.add(token);
+    });
+  });
+
+  return bag;
+}
+
+const BASE_SCHOOL_KEYWORDS = [
+  // allow everyday greetings/questions in EN/Filipino
+  "hi","hello","hey","kumusta","kamusta","magandang","sino","ano","paano","kelan","saan",
+  // keep core short tokens that a length filter would miss
+  "shs","abm","gas","tvl","tor","ssg"
 ];
+
+const SCHOOL_KEYWORDS = Array.from(
+  new Set([...BASE_SCHOOL_KEYWORDS, ...collectKeywordsFromKB(KB)])
+);
 
 const OFF_TOPIC_REPLY = "I'm sorry, I can only answer questions about Cavite National High School — Senior High School (CNHS-SHS). For other concerns, please visit the school office directly. 😊";
 
