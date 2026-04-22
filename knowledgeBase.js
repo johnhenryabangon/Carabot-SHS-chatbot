@@ -23,8 +23,11 @@ const KNOWLEDGE_BASE = {
     address:     "  Chief E. Martin St. Caridad, Cavite, Philippines, 4100",
     phone:       "(046) 438 7421",
     email:       "cnhs.seniorhigh@gmail.com",
-    established:  1901,
+    established:  1902,
     motto:       "Excellence, Integrity, Service",
+    shs_office:   "ABM Building, 1st Floor",
+    facebook:     "facebook.com/CNHSSeniorHighSch",
+    office_hours: "Monday – Friday, 7:00 AM – 4:00 PM",
   },
 
   // ── KEY OFFICIALS ─────────────────────────────────────────
@@ -62,13 +65,6 @@ const KNOWLEDGE_BASE = {
       subjects: ["Creative Writing", "Disciplines & Ideas in Social Sciences", "Community Engagement", "Philippine Politics & Governance", "Introduction to World Religions", "Trends, Networks, and Critical Thinking"],
     },
     {
-      code:  "GAS",
-      name:  "General Academic Strand",
-      track: "Academic",
-      description: "A flexible strand combining subjects from STEM, ABM, and HUMSS. Good for undecided students or those pursuing diverse college programs.",
-      subjects: ["Humanities 1 & 2", "Social Science 1", "Applied Economics", "Organization and Management", "Disaster Readiness and Risk Reduction"],
-    },
-    {
       code:  "TVL-ICT",
       name:  "Technical-Vocational-Livelihood — Information & Communications Technology",
       track: "TVL",
@@ -94,7 +90,7 @@ const KNOWLEDGE_BASE = {
     },
     requirements_g11: [
       "Grade 10 Report Card (Form 138) — original + 1 photocopy",
-      "PSA Birth Certificate — photocopy",
+      "PSA Birth Certificate — original and photocopy",
       "2x2 ID photos (4 pieces, white background)",
       "Completed Enrollment Form (available at the Registrar's Office)",
       "Good Moral Certificate from previous school",
@@ -178,20 +174,11 @@ const KNOWLEDGE_BASE = {
     "Tellusians (The Official STEM Student Organization of CNHS-SHS)",
     "Saltybots (Robotics Club)",
     "HANDS (Humanitarian Association of Notable And Devout Students)",
-    "ASSETS ((Accountancy, Business, Entrepreneurship, and Management Society)",
+    "ASSETS (Accountancy, Business, Entrepreneurship, and Management Society)",
     "The Cavitenan (School Paper)",
-    "Sports Clubs",
-  ],
+    "Sports Clubs"
+  ]
 
-  // ── CONTACT ───────────────────────────────────────────────
-  contact: {
-    address:      "Dalahican, Cavite City, Cavite 4100",
-    phone:        "(046) 431-0012",
-    email:        "cavite.nhs@deped.gov.ph",
-    facebook:     "facebook.com/CNHSOfficialPage",
-    office_hours: "Monday – Friday, 7:00 AM – 4:00 PM",
-    shs_office:   "ABM Building, 1st Floor",
-  },
 };
 
 // Expose globally so agent.js can access it

@@ -12,19 +12,38 @@ const chatHistory = []; // { role: "user"|"assistant", content: "..." }
 
 // ── SYSTEM PROMPT ─────────────────────────────────────────────
 function buildSystemPrompt() {
-  const regProcess = KB.registrar_requests.process.map((s, i) => `  ${i+1}. ${s}`).join("\n");
+  const school = KB.school || {};
+  const officials = KB.officials || {};
+  const enrollment = KB.enrollment || {};
+  const enrollmentPeriods = enrollment.periods || {};
+  const fees = KB.fees || {};
+  const grading = KB.grading || {};
+  const policies = KB.policies || {};
+  const calendar = KB.academic_calendar || {};
+  const registrar = KB.registrar_requests || {};
 
-  const strands = KB.strands.map(st =>
+  const contact = KB.contact || {};
+  const schoolOffice = contact.shs_office || school.shs_office || "Not specified";
+  const officeHours  = contact.office_hours || school.office_hours || "Not specified";
+  const facebookPage = contact.facebook || school.facebook || "Not specified";
+  const mascot       = school.mascot || "Carabao";
+  const colors       = school.colors || "Maroon and Gold";
+
+  const regProcess = (registrar.process || ["Not specified"])
+    .map((s, i) => `  ${i+1}. ${s}`)
+    .join("\n");
+
+  const strands = (KB.strands || []).map(st =>
     `  • ${st.code} (${st.track}): ${st.name} — ${st.description}` +
     (st.tesda_nc ? ` [TESDA: ${st.tesda_nc}]` : "") +
     (st.subjects  ? `\n    Subjects: ${st.subjects.join(", ")}` : "")
   ).join("\n");
 
-  const enrollSteps = KB.enrollment.steps.map((s, i) => `  ${i+1}. ${s}`).join("\n");
-  const enrollReqs  = KB.enrollment.requirements_g11.map(r => `  • ${r}`).join("\n");
-  const orgs        = KB.organizations.map(o => `  • ${o}`).join("\n");
+  const enrollSteps = (enrollment.steps || []).map((s, i) => `  ${i+1}. ${s}`).join("\n");
+  const enrollReqs  = (enrollment.requirements_g11 || []).map(r => `  • ${r}`).join("\n");
+  const orgs        = (KB.organizations || []).map(o => `  • ${o}`).join("\n");
 
-  return `You are Carabot, a restricted school assistant for ${KB.school.name} — Senior High School (CNHS-SHS).
+  return `You are Carabot, a restricted school assistant for ${school.name || "CNHS"} — Senior High School (CNHS-SHS).
 
 YOUR ONLY JOB: Answer questions about CNHS-SHS using ONLY the knowledge base below.
 
@@ -57,30 +76,30 @@ Do NOT guess. Do NOT make up names, dates, numbers, or facts. Only state what is
 --- CNHS-SHS KNOWLEDGE BASE ---
 
 SCHOOL:
-Name: ${KB.school.name} | Short: ${KB.school.shortName}
-Address: ${KB.school.address}
-Phone: ${KB.school.phone} | Email: ${KB.school.email}
-Established: ${KB.school.established} | Mascot: ${KB.school.mascot}
-Colors: ${KB.school.colors} | Motto: "${KB.school.motto}"
-Division: ${KB.school.division} | Region: ${KB.school.region}
+Name: ${school.name || "Not specified"} | Short: ${school.shortName || "Not specified"}
+Address: ${school.address || "Not specified"}
+Phone: ${school.phone || "Not specified"} | Email: ${school.email || "Not specified"}
+Established: ${school.established || "Not specified"} | Mascot: ${mascot}
+Colors: ${colors} | Motto: "${school.motto || "Not specified"}"
+Division: ${school.division || "Not specified"} | Region: ${school.region || "Not specified"}
 
 OFFICIALS:
-Principal: ${KB.officials.principal}
-SHS Coordinator: ${KB.officials.shs_coordinator}
-Registrar: ${KB.officials.registrar}
-Guidance: ${KB.officials.guidance}
-Office: ${KB.contact.shs_office} | Hours: ${KB.contact.office_hours}
-Facebook: ${KB.contact.facebook}
+Principal: ${officials.principal || "Not specified"}
+SHS Coordinator: ${officials.shs_coordinator || "Not specified"}
+Registrar: ${officials.registrar || "Not specified"}
+Guidance: ${officials.guidance || "Not specified"}
+Office: ${schoolOffice} | Hours: ${officeHours}
+Facebook: ${facebookPage}
 
 HISTORY:
-${KB.history}
+${KB.history || "Not specified"}
 
 STRANDS:
 ${strands}
 
 ENROLLMENT:
-Periods: Early=${KB.enrollment.periods.early} | Regular=${KB.enrollment.periods.regular} | Late=${KB.enrollment.periods.late}
-Note: ${KB.enrollment.note}
+Periods: Early=${enrollmentPeriods.early || "Not specified"} | Regular=${enrollmentPeriods.regular || "Not specified"} | Late=${enrollmentPeriods.late || "Not specified"}
+Note: ${enrollment.note || "Not specified"}
 Steps:
 ${enrollSteps}
 Grade 11 Requirements:
@@ -89,24 +108,24 @@ Transferee: Above + Certificate of Transfer + School Clearance.
 Grade 12: Grade 11 Report Card + Enrollment Form + Updated 2x2 photos.
 
 FEES:
-Tuition: ${KB.fees.tuition}
-Miscellaneous: ${KB.fees.miscellaneous}
-Voucher: ${KB.fees.voucher}
+Tuition: ${fees.tuition || "Not specified"}
+Miscellaneous: ${fees.miscellaneous || "Not specified"}
+Voucher: ${fees.voucher || "Not specified"}
 
 GRADING:
-Written Work: ${KB.grading.written_work} | Performance Tasks: ${KB.grading.performance_tasks} | Quarterly Assessment: ${KB.grading.quarterly_assessment}
-Passing Grade: ${KB.grading.passing_grade} | ${KB.grading.note}
+Written Work: ${grading.written_work || "Not specified"} | Performance Tasks: ${grading.performance_tasks || "Not specified"} | Quarterly Assessment: ${grading.quarterly_assessment || "Not specified"}
+Passing Grade: ${grading.passing_grade || "Not specified"} | ${grading.note || "Not specified"}
 
 POLICIES:
-Uniform: ${KB.policies.uniform}
-Attendance: ${KB.policies.attendance}
-Devices: ${KB.policies.devices}
-Behavior: ${KB.policies.behavior}
+Uniform: ${policies.uniform || "Not specified"}
+Attendance: ${policies.attendance || "Not specified"}
+Devices: ${policies.devices || "Not specified"}
+Behavior: ${policies.behavior || "Not specified"}
 
 CALENDAR:
-Year: ${KB.academic_calendar.school_year}
-Q1: ${KB.academic_calendar.quarter_1} | Q2: ${KB.academic_calendar.quarter_2} | Q3: ${KB.academic_calendar.quarter_3} | Q4: ${KB.academic_calendar.quarter_4}
-Graduation: ${KB.academic_calendar.graduation}
+Year: ${calendar.school_year || "Not specified"}
+Q1: ${calendar.quarter_1 || "Not specified"} | Q2: ${calendar.quarter_2 || "Not specified"} | Q3: ${calendar.quarter_3 || "Not specified"} | Q4: ${calendar.quarter_4 || "Not specified"}
+Graduation: ${calendar.graduation || "Not specified"}
 
 ORGANIZATIONS:
 ${orgs}
@@ -115,11 +134,11 @@ ${orgs}
 
 You are Carabot — named after the Carabao, CNHS's proud mascot.
 DOCUMENTS & REGISTRAR REQUESTS:
-Email: ${KB.registrar_requests.email}
-Documents Available: ${KB.registrar_requests.available_documents.join(", ")}
+Email: ${registrar.email || "Not specified"}
+Documents Available: ${(registrar.available_documents || []).join(", ")}
 Process:
 ${regProcess}
-Important: ${KB.registrar_requests.important_note}`;
+Important: ${registrar.important_note || "Not specified"}`;
 }
 
 // ── JS GUARDRAIL — blocks off-topic questions before hitting AI ──
