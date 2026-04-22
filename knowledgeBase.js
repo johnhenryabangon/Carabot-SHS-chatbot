@@ -176,9 +176,8 @@ const KNOWLEDGE_BASE = {
     "HANDS (Humanitarian Association of Notable And Devout Students)",
     "ASSETS (Accountancy, Business, Entrepreneurship, and Management Society)",
     "The Cavitenan (School Paper)",
-    "Sports Clubs"
+    "Sports Clubs",
   ]
-
 };
 
 // Expose globally so agent.js can access it
